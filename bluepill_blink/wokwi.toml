@@ -1,0 +1,6 @@
+[wokwi]
+version = 1
+firmware = 'build/Debug/bluepill_blink.elf'
+elf = 'build/Debug/bluepill_blink.elf'
+
+gdbServerPort = 3333
