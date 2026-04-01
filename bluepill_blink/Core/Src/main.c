@@ -106,18 +106,24 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  printf("First application starting, Hello Gaby!!!\n");
+  printf("First application starting!\r\n");
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint32_t now = 0, last = 0;
+
   while (1)
   {
+    now = HAL_GetTick();
+    if (now - last >= 200) {
+      printf("Loop %lu\r\n", now);
+      last = now;
+      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    }
     /* USER CODE END WHILE */
 
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(500);
 
     /* USER CODE BEGIN 3 */
   }

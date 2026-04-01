@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Wokwi Simulator",
+            "cwd": "${workspaceFolder}",
+            "executable": "./build//Debug/bluepill_blink.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "localhost:3333", // Wokwi's default GDB port
+            "runToEntryPoint": "main"
+        }
+    ]
+}
