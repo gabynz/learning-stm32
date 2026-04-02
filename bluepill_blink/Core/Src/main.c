@@ -44,7 +44,8 @@
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-uint8_t btn_press = 0;
+uint8_t btn_press = 0, index = 0;
+uint16_t rate[] = {500, 250, 100};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,12 +73,10 @@ int _write(int fd, char* ptr, int len) {
   return -1;
 }
 
-/*void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-  if (GPIO_Pin == BTN_Pin) {
-    btn_press = 1;
-  }
-}*/
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  index = index == 2 ? 0 : index + 1;
+  printf("Button pressed.\r\n");
+}
 
 /* USER CODE END 0 */
 
@@ -119,21 +118,23 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint32_t now = 0, last = 0;
+  uint32_t now = 0, next_blink = rate[index], next_tick = 1000, loop_count = 0;
 
   while (1)
   {
     now = HAL_GetTick();
-    if (now - last >= 200) {
-      //printf("Loop %lu\r\n", now);
-      last = now;
-      //HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    if (now >= next_blink) {
+      next_blink = now + rate[index];
+      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     }
 
-    if (btn_press == 1) {
-      printf("Button pressed\r\n");
-      btn_press = 0;
+    if (now >= next_tick) {
+      printf("Tick %lu (loop count = %lu)\r\n", now/1000, loop_count);
+      loop_count = 0;
+      next_tick = now + 1000;
     }
+    loop_count++;
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -153,12 +154,13 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -173,7 +175,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -242,9 +244,13 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : BTN_Pin */
   GPIO_InitStruct.Pin = BTN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BTN_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

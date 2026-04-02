@@ -15,16 +15,14 @@
       "id": "btn1",
       "top": 217.4,
       "left": 76.8,
-      "attrs": { "color": "green", "xray": "1" }
-    },
-    { "type": "wokwi-logic-analyzer", "id": "logic1", "top": -134.05, "left": 38.4, "attrs": {} }
+      "attrs": { "color": "green", "xray": "1", "bounce": "0" }
+    }
   ],
   "connections": [
     [ "$serialMonitor:TX", "bluepill:A10", "", [] ],
     [ "$serialMonitor:RX", "bluepill:A9", "", [] ],
-    [ "bluepill:A9", "logic1:D0", "blue", [ "h-76.8", "v-163.2" ] ],
-    [ "btn1:1.r", "bluepill:A0", "#8f4814", [ "v0", "h48.2", "v-96" ] ],
-    [ "btn1:1.l", "bluepill:GND.1", "green", [ "h-19.2", "v-76.8" ] ]
+    [ "btn1:1.l", "bluepill:GND.1", "green", [ "h-19.2", "v-76.8" ] ],
+    [ "bluepill:A0", "btn1:2.r", "#8f4814", [ "h36.47", "v115.2" ] ]
   ],
   "dependencies": {}
 }
