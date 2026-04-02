@@ -13,26 +13,18 @@
     {
       "type": "wokwi-pushbutton",
       "id": "btn1",
-      "top": 44.6,
-      "left": 259.2,
+      "top": 217.4,
+      "left": 76.8,
       "attrs": { "color": "green", "xray": "1" }
     },
-    {
-      "type": "wokwi-resistor",
-      "id": "r1",
-      "top": 128.75,
-      "left": 182.4,
-      "attrs": { "value": "10000" }
-    },
-    { "type": "wokwi-logic-analyzer", "id": "logic1", "top": 0, "left": -200 }
+    { "type": "wokwi-logic-analyzer", "id": "logic1", "top": -134.05, "left": 38.4, "attrs": {} }
   ],
   "connections": [
     [ "$serialMonitor:TX", "bluepill:A10", "", [] ],
     [ "$serialMonitor:RX", "bluepill:A9", "", [] ],
-    [ "btn1:1.r", "bluepill:GND.2", "green", [ "v0" ] ],
-    [ "bluepill:A0", "r1:1", "green", [ "h36.47" ] ],
-    [ "btn1:2.l", "r1:2", "green", [ "h0" ] ],
-    [ "bluepill:A9", "logic1:D0", "blue", [] ]
+    [ "bluepill:A9", "logic1:D0", "blue", [ "h-76.8", "v-163.2" ] ],
+    [ "btn1:1.r", "bluepill:A0", "#8f4814", [ "v0", "h48.2", "v-96" ] ],
+    [ "btn1:1.l", "bluepill:GND.1", "green", [ "h-19.2", "v-76.8" ] ]
   ],
   "dependencies": {}
 }

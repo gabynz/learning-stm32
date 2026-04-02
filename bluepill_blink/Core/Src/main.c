@@ -44,7 +44,7 @@
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
+uint8_t btn_press = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,6 +71,13 @@ int _write(int fd, char* ptr, int len) {
   }
   return -1;
 }
+
+/*void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  if (GPIO_Pin == BTN_Pin) {
+    btn_press = 1;
+  }
+}*/
 
 /* USER CODE END 0 */
 
@@ -118,12 +125,16 @@ int main(void)
   {
     now = HAL_GetTick();
     if (now - last >= 200) {
-      printf("Loop %lu\r\n", now);
+      //printf("Loop %lu\r\n", now);
       last = now;
-      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+      //HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    }
+
+    if (btn_press == 1) {
+      printf("Button pressed\r\n");
+      btn_press = 0;
     }
     /* USER CODE END WHILE */
-
 
     /* USER CODE BEGIN 3 */
   }
@@ -231,7 +242,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : BTN_Pin */
   GPIO_InitStruct.Pin = BTN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BTN_GPIO_Port, &GPIO_InitStruct);
 
