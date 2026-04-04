@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-stm32-bluepill",
+      "id": "bluepill",
+      "top": -20.56,
+      "left": 73.17,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 217.4,
+      "left": 76.8,
+      "attrs": { "color": "green", "xray": "1", "bounce": "0" }
+    }
+  ],
+  "connections": [
+    [ "$serialMonitor:TX", "bluepill:A10", "", [] ],
+    [ "$serialMonitor:RX", "bluepill:A9", "", [] ],
+    [ "btn1:1.l", "bluepill:GND.1", "green", [ "h-19.2", "v-76.8" ] ],
+    [ "bluepill:A0", "btn1:2.r", "#8f4814", [ "h36.47", "v115.2" ] ]
+  ],
+  "dependencies": {}
+}

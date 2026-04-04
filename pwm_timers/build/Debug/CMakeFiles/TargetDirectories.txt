@@ -1,0 +1,6 @@
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/CMakeFiles/pwm_timers.dir
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/CMakeFiles/edit_cache.dir
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/CMakeFiles/rebuild_cache.dir
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+/home/gaby/src/learning-stm32/pwm_timers/build/Debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir

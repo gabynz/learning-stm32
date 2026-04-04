@@ -1,0 +1,6 @@
+[wokwi]
+version = 1
+firmware = 'build/Debug/pwm_timers.elf'
+elf = 'build/Debug/pwm_timers.elf'
+
+gdbServerPort = 3333
